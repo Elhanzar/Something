@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicMarket"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="600">
+        Title="MainWindow" Height="450" Width="800" Background="#FF615155">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TreeView Grid.Row="0" Grid.Column="0">
+        <TreeView x:Name="TreeRgtExt" Grid.Row="0" Grid.Column="0" Background="{x:Null}" BorderBrush="#FF828790">
             <TreeViewItem IsSelected="False" Header="Вход" Focusable="False">
                 <Button  Content="Пользователь" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Entrance_Click"/>
                 <Button  Content="Компания" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Entrance_Click"/>
@@ -25,18 +25,30 @@
                 <Button  Content="Компания" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Registration_Click"/>
             </TreeViewItem>
         </TreeView>
+        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="8,8,8,8" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top">
+            <Border.Effect>
+                <DropShadowEffect  BlurRadius="20" Opacity="2" RenderingBias="Performance" Direction="344"/>
+            </Border.Effect>
+            <DockPanel>
+                <TextBox x:Name="Poiskovik" Text="" Width="388" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                         Background="{x:Null}" BorderThickness="0,0,0,0" RenderTransformOrigin="0,1" FontSize="16" Margin="5,5,5,0" >
+                </TextBox>
+                <Image HorizontalAlignment="Stretch"
+                RenderTransformOrigin="0.476,0.703" Height="28" Width="30" VerticalAlignment="Top" Margin="0,5,5,0" MouseDown="Search_Click" 
+                       Source="/pngwing.com (2).png"/>
+            </DockPanel>
+        </Border>
         <Grid Grid.Row="0" Grid.Column="1" Height="40" Width="150"></Grid>
-        <Expander x:Name="Menu" Height="300" Header="" Width="200" Grid.Column="0" Grid.Row="1" AutomationProperties.Name="Menu" VerticalAlignment="Center"
-                   HorizontalContentAlignment="Left" ExpandDirection="Right" IsExpanded="False" Foreground="#B2FFFFFF" Margin="0,0,26,0">
+        <Expander x:Name="Menu" Height="300" Header="" Width="200" Grid.Column="0" Grid.Row="1" AutomationProperties.Name="Menu" VerticalAlignment="Top"
+                   HorizontalContentAlignment="Left" ExpandDirection="Right" IsExpanded="False" Foreground="#B2FFFFFF" Margin="0,0,26,0" HorizontalAlignment="Left">
             <StackPanel Width="114">
                 <Grid Margin="0,0,0,10" Height="30">
-                    
+                    <TextBlock x:Name="MenuUserName" Width="110" Foreground="Black" FontFamily="Georgia" HorizontalAlignment="Center"/>
                 </Grid>
                 <Button  Content="Главное" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,2" Padding="1,10,1,5" Click="Menu_Click"/>
                 <StackPanel Margin="0,10,0,0">
-                    <Button  Content="Корзина" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Shopping_cart_Click"/>
-                    <Button  Content="Купленые" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Purchased_Click"/>
-                    <Button  Content="Понравившиеся" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,2" Padding="1,1,1,5" Click="Liked_Click"/>
+                    <Button x:Name="ShoppingCart" Content="Корзина" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Shopping_cart_Click"/>
+                    <Button x:Name="Addproduct" Content="Добавить товар" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Addproduct_Click" Margin="0,5,0,0" Visibility="Collapsed"/>
                 </StackPanel>
             </StackPanel>
         </Expander>
@@ -51,6 +63,14 @@
             <StackPanel x:Name="Menu_Panel" HorizontalAlignment="Left" VerticalAlignment="Top">
             </StackPanel>
         </ScrollViewer>
+        <Expander Grid.Column="1" HorizontalAlignment="Left" Header="Фильтр" Margin="450,10,0,0" Grid.RowSpan="2" IsExpanded="False" VerticalAlignment="Top" Width="100" Background="#FF615155" BorderBrush="Black">
+            <StackPanel Margin="5,0,5,0">
+                <Button  Content="Дорогой" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Filter_Click"/>
+                <Button  Content="Дешевый" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Filter_Click1"/>
+                <Button  Content="Новинки" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Filter_Click2"/>
+                <Button  Content="Старые" Height="Auto" Width="Auto" Background="{x:Null}" BorderThickness="0,0,0,0" Click="Filter_Click3"/>
+            </StackPanel>
+        </Expander>
 
     </Grid>
 </Window>

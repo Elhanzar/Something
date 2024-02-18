@@ -5,8 +5,111 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicMarket.The_moments_with_registration_and_entry"
         mc:Ignorable="d"
-        Title="Registration Company" Height="450" Width="800">
+        Title="Registration Company" Height="450" Width="800" Background="#FF615155">
+    <Window.Resources>
+        <ControlTemplate x:Key="validationFailed">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Violet" BorderThickness="2">
+                    <AdornedElementPlaceholder />
+                </Border>
+                <TextBlock Foreground="Red" FontSize="26" FontWeight="Bold">!</TextBlock>
+            </StackPanel>
+        </ControlTemplate>
+        <Style TargetType="TextBox" x:Key="ValidCheck">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+               Value="{Binding RelativeSource={RelativeSource Self},
+                   Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <StackPanel Margin="50,20,70,19">
+            <DockPanel>
+                <TextBlock Text="Name:" Width="75" Margin="0,0,20,0" />
+                <Border BorderThickness="1" CornerRadius="8,8,8,8" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Background="White">
+                    <Border.Effect>
+                        <DropShadowEffect  BlurRadius="20" Opacity="2" RenderingBias="Performance" Direction="344"/>
+                    </Border.Effect>
+                    <TextBox Name="Name" Height="30" Width="500" Margin="5,5,5,5" Validation.ErrorTemplate="{StaticResource validationFailed}" Validation.Error="TextBox_Error">
+                        <TextBox.Text>
+                            <Binding Path="Name" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </Border>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock Text="Number:" Width="75" Margin="0,0,20,0" />
+                <Border BorderThickness="1" CornerRadius="8,8,8,8" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Background="White">
+                    <Border.Effect>
+                        <DropShadowEffect  BlurRadius="20" Opacity="2" RenderingBias="Performance" Direction="344"/>
+                    </Border.Effect>
+                    <TextBox Name="Number"  Height="30" Width="500" Margin="5,5,5,5" Validation.ErrorTemplate="{StaticResource validationFailed}" Validation.Error="TextBox_Error">
+                        <TextBox.Text>
+                            <Binding Path="Number" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </Border>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock Text="Email:" Width="75" Margin="0,0,20,0" />
+                <Border BorderThickness="1" CornerRadius="8,8,8,8" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Background="White">
+                    <Border.Effect>
+                        <DropShadowEffect  BlurRadius="20" Opacity="2" RenderingBias="Performance" Direction="344"/>
+                    </Border.Effect>
+                    <TextBox Name="Email"  Height="30" Width="500" Margin="5,5,5,5" Validation.ErrorTemplate="{StaticResource validationFailed}" Validation.Error="TextBox_Error">
+                        <TextBox.Text>
+                            <Binding Path="Email" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </Border>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock Text="Password:" Width="75" Margin="0,0,20,0" />
+                <Border BorderThickness="1" CornerRadius="8,8,8,8" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Background="White">
+                    <Border.Effect>
+                        <DropShadowEffect  BlurRadius="20" Opacity="2" RenderingBias="Performance" Direction="344"/>
+                    </Border.Effect>
+                    <TextBox Name="Password"  Height="30" Width="500" Margin="5,5,5,5" Validation.ErrorTemplate="{StaticResource validationFailed}" Validation.Error="TextBox_Error">
+                        <TextBox.Text>
+                            <Binding Path="Password" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </Border>
+            </DockPanel>
+            <DockPanel Margin="30,20,30,0">
+                <Border BorderThickness="1" CornerRadius="8,8,8,8" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Background="White">
+                    <Border.Effect>
+                        <DropShadowEffect  BlurRadius="20" Opacity="2" RenderingBias="Performance" Direction="344"/>
+                    </Border.Effect>
+                    <Button x:Name="Back" Height="30" Width="70" Margin="5,5,5,5" Content="Назад" Click="Back_Click" Background="White"/>
+                </Border>
+                <Border BorderThickness="1" CornerRadius="8,8,8,8" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Background="White">
+                    <Border.Effect>
+                        <DropShadowEffect  BlurRadius="20" Opacity="2" RenderingBias="Performance" Direction="344"/>
+                    </Border.Effect>
+                    <Button x:Name="Next" Height="30" Width="70" Margin="5,5,5,5" Content="Далее" Click="Next_Click" Background="White"/>
+                </Border>
+            </DockPanel>
+        </StackPanel>
     </Grid>
 </Window>

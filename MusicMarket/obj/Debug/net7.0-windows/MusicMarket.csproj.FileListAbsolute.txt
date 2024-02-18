@@ -52,3 +52,6 @@ C:\Users\elhan\source\repos\MusicMarket\MusicMarket\bin\Debug\net7.0-windows\Mic
 C:\Users\elhan\source\repos\MusicMarket\MusicMarket\bin\Debug\net7.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
 C:\Users\elhan\source\repos\MusicMarket\MusicMarket\bin\Debug\net7.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
 C:\Users\elhan\source\repos\MusicMarket\MusicMarket\bin\Debug\net7.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\elhan\source\repos\MusicMarket\MusicMarket\bin\Debug\net7.0-windows\appsettings.json
+C:\Users\elhan\source\repos\MusicMarket\MusicMarket\obj\Debug\net7.0-windows\Ability_Company\The_moment_of_add_track.g.cs
+C:\Users\elhan\source\repos\MusicMarket\MusicMarket\obj\Debug\net7.0-windows\Ability_Company\The_moment_of_add_track.baml

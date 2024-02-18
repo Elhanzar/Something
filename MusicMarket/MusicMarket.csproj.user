@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Ability_Company\The_moment_of_add_track.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="The_moments_with_registration_and_entry\The_moment_of_entry.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -21,6 +24,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Ability_Company\The_moment_of_add_track.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

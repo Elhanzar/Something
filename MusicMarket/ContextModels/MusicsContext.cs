@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using MusicMarket.Models;
 
-namespace MusicMarket.Models;
+namespace MusicMarket.ContextModels;
 
 public partial class MusicsContext : DbContext
 {
@@ -15,99 +18,107 @@ public partial class MusicsContext : DbContext
     {
     }
 
-    public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
+    public virtual DbSet<Company> Companies { get; set; }
+
+    public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<Track> Tracks { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<Сompany> Сompanies { get; set; }
+    public string GetConnectionString()
+    {
+        var builder = new ConfigurationBuilder();
+        // установка пути к текущему каталогу
+        builder.SetBasePath(Directory.GetCurrentDirectory());
+        // получаем конфигурацию из файла appsettings.json
+        builder.AddJsonFile("appsettings.json");
+        // создаем конфигурацию
+        var config = builder.Build();
+        // получаем строку подключения
+        string connectionString = config.GetConnectionString("DefaultConnection");
 
+        return connectionString;
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;User Id=postgres;Password=Obkzavr3272;Database=Musics;");
+    {
+        optionsBuilder.UseNpgsql(GetConnectionString());
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ShoppingCart>(entity =>
+        modelBuilder.Entity<Company>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("shopping_cart_pkey");
+            entity.HasKey(e => e.Id).HasName("Company_pkey");
 
-            entity.ToTable("Shopping_cart");
+            entity.ToTable("company");
 
-            entity.HasIndex(e => e.TrackId, "Tracks_unique").IsUnique();
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("nextval('\"Company_id_seq\"'::regclass)")
+                .HasColumnName("id");
+            entity.Property(e => e.Email).HasColumnName("email");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.Number).HasColumnName("number");
+            entity.Property(e => e.Password).HasColumnName("password");
+        });
 
-            entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"shopping_cart_Id_seq\"'::regclass)");
-            entity.Property(e => e.Date).HasColumnType("time with time zone");
-            entity.Property(e => e.TrackId).HasColumnName("Track_id");
-            entity.Property(e => e.UserId).HasColumnName("User_id");
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("orders_pkey");
 
-            entity.HasOne(d => d.Track).WithOne(p => p.ShoppingCart)
-                .HasForeignKey<ShoppingCart>(d => d.TrackId)
-                .HasConstraintName("Track_foreign");
+            entity.ToTable("orders");
 
-            entity.HasOne(d => d.User).WithMany(p => p.ShoppingCarts)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("User_foreign");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Trackid).HasColumnName("trackid");
+            entity.Property(e => e.Userid).HasColumnName("userid");
+
+            entity.HasOne(d => d.Track).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.Trackid)
+                .HasConstraintName("orders_trackid_fkey");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.Userid)
+                .HasConstraintName("orders_userid_fkey");
         });
 
         modelBuilder.Entity<Track>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("Tracks_pkey");
+            entity.HasKey(e => e.Id).HasName("track_pkey");
 
-            entity.HasIndex(e => e.MusicName, "Tracks_Music_name_key").IsUnique();
+            entity.ToTable("track");
 
-            entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"Tracks_id_seq\"'::regclass)");
-            entity.Property(e => e.AuthorId).HasColumnName("Author_id");
-            entity.Property(e => e.AuthorName).HasColumnName("Author_name");
-            entity.Property(e => e.CostPrice)
-                .HasColumnType("money")
-                .HasColumnName("Cost_price");
-            entity.Property(e => e.DateRelize)
-                .HasColumnType("time with time zone")
-                .HasColumnName("Date_relize");
-            entity.Property(e => e.Genre).HasDefaultValueSql("'noname'::text");
-            entity.Property(e => e.GroupName)
-                .HasDefaultValueSql("'noname'::text")
-                .HasColumnName("Group_name");
-            entity.Property(e => e.MusicName).HasColumnName("Music_name");
-            entity.Property(e => e.Price).HasColumnType("money");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Authorid).HasColumnName("authorid");
+            entity.Property(e => e.Authorname).HasColumnName("authorname");
+            entity.Property(e => e.Costprice).HasColumnName("costprice");
+            entity.Property(e => e.Daterelize)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("daterelize");
+            entity.Property(e => e.Genre)
+                .HasDefaultValueSql("1")
+                .HasColumnName("genre");
+            entity.Property(e => e.Groupname).HasColumnName("groupname");
+            entity.Property(e => e.Musicname).HasColumnName("musicname");
+            entity.Property(e => e.Price).HasColumnName("price");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
 
             entity.HasOne(d => d.Author).WithMany(p => p.Tracks)
-                .HasForeignKey(d => d.AuthorId)
-                .HasConstraintName("Tracks_Author_id_fkey");
+                .HasForeignKey(d => d.Authorid)
+                .HasConstraintName("track_authorid_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("users_pkey");
+            entity.HasKey(e => e.Id).HasName("user_pkey");
 
-            entity.HasIndex(e => e.Email, "unique_email").IsUnique();
+            entity.ToTable("user");
 
-            entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"users_Id_seq\"'::regclass)");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.Patronymic)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.Surname)
-                .HasMaxLength(50)
-                .IsFixedLength();
-        });
-
-        modelBuilder.Entity<Сompany>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("Сompany_pkey");
-
-            entity.ToTable("Сompany");
-
-            entity.HasIndex(e => new { e.Name, e.Email, e.PhoneNumber }, "Сompany_Name_Email_Phone_number_key").IsUnique();
-
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.PhoneNumber).HasColumnName("Phone_number");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Email).HasColumnName("email");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.Password).HasColumnName("password");
+            entity.Property(e => e.Patronymic).HasColumnName("patronymic");
+            entity.Property(e => e.Surname).HasColumnName("surname");
         });
 
         OnModelCreatingPartial(modelBuilder);
